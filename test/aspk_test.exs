@@ -10,6 +10,8 @@ defmodule ASPKTest do
 
     test "revoke_token/1 removes a token from the database" do
       {id, _} = ASPK.create_token!() |> ASPK.Token.parse()
+      assert {:ok, _} = ASPK.revoke_token(Repo.get!(ASPK.Token, id))
+      assert nil == Repo.get(ASPK.Token, id)
     end
   end
 end
