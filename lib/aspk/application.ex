@@ -8,7 +8,8 @@ defmodule ASPK.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      ASPK.Repo
+      ASPK.Repo,
+      {ASPK.PlugAdapter, plug: ASPK.Authentication, port: 9000}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

@@ -26,7 +26,8 @@ defmodule ASPK.MixProject do
     [
       {:bcrypt_elixir, "~> 2.3.0"},
       {:ecto, "~> 3.7.0"},
-      {:ecto_sqlite3, ">= 0.0.0"}
+      {:ecto_sqlite3, ">= 0.0.0"},
+      {:plug, "~> 1.12.0"}
     ]
   end
 

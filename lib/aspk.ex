@@ -3,6 +3,10 @@ defmodule ASPK do
   High-level ASPK API functions.
   """
 
+  @version "0.1.0"
+
+  def version, do: @version
+
   @doc """
   Create and store a token in the database. Returns the encoded string token.
   """
