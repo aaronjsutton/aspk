@@ -27,3 +27,8 @@ aspk-*.tar
 
 # Database files.
 *.sqlite3*
+
+# Vim, macOS
+.DS_Store
+*.icloud
+.*.sw*

@@ -21,6 +21,10 @@ defmodule ASPK.Token do
     |> prepare_changes(&hash_secret/1)
   end
 
+  def encode(%Ecto.Changeset{changes: %{secret: secret, id: id}}) do
+    "#{Base.encode64(id)}:#{secret}" 
+  end
+
   defp hash_secret(changeset) do
     secret = get_change(changeset, :secret)
 
@@ -28,6 +32,4 @@ defmodule ASPK.Token do
     |> put_change(:hashed_secret, Bcrypt.hash_pwd_salt(secret))
     |> delete_change(:secret)
   end
-
-
 end
