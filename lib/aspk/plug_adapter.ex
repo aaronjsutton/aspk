@@ -1,12 +1,13 @@
 defmodule ASPK.PlugAdapter do
   def dispatch(request, plug) do
-    %{full_path: full_path} = ASPK.Server.read_request(request)
+    %{full_path: full_path, headers: headers} = ASPK.Server.read_request(request)
 
     %Plug.Conn{
       adapter: {ASPK.PlugAdapter, request},
       owner: self(),
       path_info: path_info(full_path),
-      query_string: query_string(full_path)
+      query_string: query_string(full_path),
+      req_headers: headers
     }
     |> plug.call([])
   end

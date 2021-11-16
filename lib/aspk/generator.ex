@@ -13,7 +13,7 @@ defmodule ASPK.Generator do
   """
   def generate_secret do
     :crypto.strong_rand_bytes(@secret_length)
-    |> Base.encode64()
+    |> Base.encode32()
   end
 
   @doc """

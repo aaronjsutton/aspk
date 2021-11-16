@@ -26,7 +26,9 @@ defmodule ASPK.Token do
   end
 
   def encode(%Ecto.Changeset{changes: %{secret: secret, id: id}}) do
-    "#{Base.encode64(id)}:#{secret}"
+    [id, secret]
+    |> Enum.map(&Base.encode64/1)
+    |> Enum.join(":")
   end
 
   def parse(token) when is_binary(token) do
