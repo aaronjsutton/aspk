@@ -1,7 +1,7 @@
 defmodule ASPKTest do
   use ASPK.RepoCase
 
-  setup context do
+  setup do
     [encoded_token: ASPK.create_token!()]
   end
 
@@ -14,7 +14,7 @@ defmodule ASPKTest do
       encoded_token: encoded_token,
       conn: conn
     } do
-      assert {id, encoded_token} =
+      assert {id, _encoded_token} =
                conn
                |> Plug.Conn.put_req_header("authorization", encoded_token)
                |> Plug.BasicAuth.parse_basic_auth()
