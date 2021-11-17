@@ -1,15 +1,16 @@
 defmodule ASPK.Authentication do
   import Plug.Conn
+  import Plug.BasicAuth
 
   require Logger
 
   def init(options), do: options
 
   @doc """
-  Primary authentication logic controller.
+  Pluggable authentication logic module.
   """
   def call(conn, _opts) do
-    with {id, secret} <- Plug.BasicAuth.parse_basic_auth(conn) do
+    with {id, secret} <- parse_basic_auth(conn) do
       Logger.info("Processing authentication request for key: #{id}")
 
       valid? =
@@ -23,7 +24,10 @@ defmodule ASPK.Authentication do
         send_resp(conn, 403, "")
       end
     else
-      _ -> send_resp(conn, 401, "")
+      _ ->
+        conn
+        |> request_basic_auth(realm: "Access to protected resources")
+        |> send_resp()
     end
   end
 end

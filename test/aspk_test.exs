@@ -29,4 +29,8 @@ defmodule ASPKTest do
       assert nil == Repo.get(ASPK.Token, token.id)
     end
   end
+
+  describe "integration test" do
+
+  end
 end
