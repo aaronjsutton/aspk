@@ -26,7 +26,7 @@ aspk-*.tar
 /tmp/
 
 # Database files.
-*.sqlite3*
+/data/
 
 # Vim, macOS
 .DS_Store
