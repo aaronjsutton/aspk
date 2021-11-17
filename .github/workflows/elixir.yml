@@ -29,3 +29,41 @@ jobs:
       run: mix deps.get
     - name: Run tests
       run: mix test
+      
+  release:
+    name: Compile and release
+    runs-on: ubuntu-latest
+
+    needs: build
+
+    env:
+      MIX_ENV: prod
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Elixir
+        uses: erlef/setup-beam@988e02bfe678367a02564f65ca2e37726dc0268f
+        with:
+          elixir-version: '1.12.3' # Define the elixir version [required]
+          otp-version: '24.1' # Define the OTP version [required]
+      - name: Restore dependencies cache
+        uses: actions/cache@v2
+        with:
+          path: deps
+          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+          restore-keys: ${{ runner.os }}-mix-
+      - name: Install dependencies
+        run: mix deps.get
+      - name: Build project
+        run: mix compile
+      - name: Generate release
+        run: mix release
+      - name: Archive the release
+        run: tar -cvzf $(_build/prod/rel/aspk/bin/aspk version | sed "s/ /-/g;s/$/-$(uname -s)/").tar.gz -C _build/prod/rel/ aspk
+      - name: Upload release artifact
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: release.tar.gz
+          path: "*.tar.gz"
+        
+
