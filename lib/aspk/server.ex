@@ -39,7 +39,7 @@ defmodule ASPK.Server do
           Map.put(acc, :headers, [{String.downcase(to_string(key)), value} | acc.headers])
         )
 
-      {:ok, line} ->
+      {:ok, _line} ->
         read_request(request, acc)
     end
   end
