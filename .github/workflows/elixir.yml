@@ -58,3 +58,12 @@ jobs:
         run: mix compile
       - name: Generate release
         run: mix release
+      - name: Archive the release
+        run: tar -cvzf $(_build/prod/rel/aspk/bin/aspk version | sed "s/ /-/g;s/$/-$(uname -s)/").tar.gz -C _build/prod/rel/ aspk
+      - name: Upload release artifact
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: release.tar.gz
+          path: "*.tar.gz"
+        
+
