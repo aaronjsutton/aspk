@@ -10,10 +10,10 @@ HTTP Basic Authorization header.
 
 ## Usage
 
-`ASPK.Server` is implemented as a `GenServer` that and can be run from a
-supervision tree. `ASPK.Application` is a standalone OTP application that will
-run the server. [Ecto](https://hexdocs.pm/ecto/Ecto.html) is used as the
-database engine.
+`ASPK.Server` is implemented as a `GenServer` that can be run from a supervision
+tree. `ASPK.Application` is a standalone OTP application that will run the
+server. [Ecto](https://hexdocs.pm/ecto/Ecto.html) is used as the database
+engine.
 
 First generate a token using an `iex` console. `ASPK.create_token/0` can be used
 for this.
@@ -34,11 +34,11 @@ curl https://your-endpoint -H "Authorization: Basic YOUR_ENCODED_KEY"`
 
 The server returns the following status codes:
 
-| Code | Description                                                         |
-| ---- | ------------------------------------------------------------------- |
-| 204  | Authentication was successful.                                      |
-| 401  | Authentication request was missing credentials or malformed.        |
-| 403  | Authorization credentials are not permitted to access the resource. |
+| Code | Description                                                        |
+| ---- | ------------------------------------------------------------------ |
+| 204  | Authentication was successful                                      |
+| 401  | Authentication request was missing credentials or malformed        |
+| 403  | Authorization credentials are not permitted to access the resource |
 
 ## Security
 
