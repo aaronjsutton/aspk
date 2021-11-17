@@ -11,12 +11,13 @@ defmodule ASPKTest do
     end
 
     test "tokens generated using create_token!/0 can be decoded", %{
-      encoded_token: token,
+      encoded_token: encoded_token,
       conn: conn
     } do
-      assert {id, token} = conn
-      |> Plug.Conn.put_req_header("authorization", token)
-      |> Plug.BasicAuth.parse_basic_auth()
+      assert {id, encoded_token} =
+               conn
+               |> Plug.Conn.put_req_header("authorization", encoded_token)
+               |> Plug.BasicAuth.parse_basic_auth()
 
       key = ASPK.Repo.get(ASPK.Token, id)
 
@@ -31,6 +32,39 @@ defmodule ASPKTest do
   end
 
   describe "integration test" do
+    test "a request with no token returns a 401", %{conn: conn} do
+      conn = ASPK.Authentication.call(conn, [])
+      assert :sent = conn.state
+      assert 401 = conn.status
+      refute [] == Plug.Conn.get_resp_header(conn, "www-authenticate")
+    end
 
+    test "a request with a valid token returns 204", %{encoded_token: encoded_token, conn: conn} do
+      conn =
+        conn
+        |> Plug.Conn.put_req_header("authorization", encoded_token)
+        |> ASPK.Authentication.call([])
+
+      assert :sent = conn.state
+      assert 204 = conn.status
+    end
+
+    test "a request with an invalid token returns a 403", %{
+      conn: conn,
+      encoded_token: encoded_token
+    } do
+      {id, _} =
+        conn
+        |> Plug.Conn.put_req_header("authorization", encoded_token)
+        |> Plug.BasicAuth.parse_basic_auth()
+
+      conn =
+        conn
+        |> Plug.Conn.put_req_header("authorization", Plug.BasicAuth.encode_basic_auth(id, "bogus"))
+        |> ASPK.Authentication.call([])
+
+      assert :sent = conn.state
+      assert 403 = conn.status
+    end
   end
 end
