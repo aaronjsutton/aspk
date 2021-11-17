@@ -1,15 +1,29 @@
 defmodule ASPK.Authentication do
   import Plug.Conn
-  import Plug.BasicAuth
-  
+
   require Logger
 
   def init(options), do: options
 
+  @doc """
+  Primary authentication logic controller.
+  """
   def call(conn, _opts) do
-    Logger.info(conn)
+    with {id, secret} <- Plug.BasicAuth.parse_basic_auth(conn) do
+      Logger.info("Processing authentication request for key: #{id}")
 
-    conn
-    |> send_resp(204, "")
+      valid? =
+        ASPK.Token
+        |> ASPK.Repo.get(id)
+        |> ASPK.Token.valid_secret?(secret)
+
+      if valid? do
+        send_resp(conn, 204, "")
+      else
+        send_resp(conn, 403, "")
+      end
+    else
+      _ -> send_resp(conn, 401, "")
+    end
   end
 end

@@ -13,13 +13,6 @@ defmodule ASPK.TokenTest do
     refute token.hashed_secret == nil
   end
 
-  test "parse/1 correctly parses a token string" do
-    token = ASPK.create_token!()
-    assert {id, secret} = ASPK.Token.parse(token)
-    assert is_binary(id) > 0
-    assert String.length(secret) > 0
-  end
-
   test "valid_secret?/2 validates a secret" do
     c = %Ecto.Changeset{changes: %{secret: secret}} = ASPK.Token.creation_changeset()
     {:ok, token} = ASPK.Repo.insert(c)

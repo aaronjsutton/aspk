@@ -19,6 +19,6 @@ defmodule ASPK.RepoCase do
       Ecto.Adapters.SQL.Sandbox.mode(ASPK.Repo, {:shared, self()})
     end
 
-    :ok
+    {:ok, conn: Plug.Test.conn(:get, "/")}
   end
 end

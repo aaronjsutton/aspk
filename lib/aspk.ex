@@ -15,7 +15,7 @@ defmodule ASPK do
     changeset = ASPK.Token.creation_changeset()
 
     case ASPK.Repo.insert(changeset) do
-      {:ok, _} -> ASPK.Token.encode(changeset)
+      {:ok, _} -> {:ok, ASPK.Token.encode(changeset)}
       err -> err
     end
   end
