@@ -3,7 +3,7 @@ defmodule ASPK do
   High-level ASPK API functions.
   """
 
-  @version "0.1.0"
+  @version "0.7.2"
 
   def version, do: @version
 

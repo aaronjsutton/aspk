@@ -15,18 +15,19 @@ tree. `ASPK.Application` is a standalone OTP application that will run the
 server. [Ecto](https://hexdocs.pm/ecto/Ecto.html) is used as the database
 engine.
 
-First generate a token using an `iex` console. `ASPK.create_token/0` can be used
-for this.
+First generate a token. `ASPK.create_token/0` can be used
+for this. You can use the releases binary for this. Assuming that `aspk` binary
+is on your `$PATH`:
 
-```
-iex> ASPK.create_token()
+```bash
+$ aspk eval ASPK.create_token()
 "YOUR_ENCODED_KEY"
 ```
 
 To authenticate with the server, make a request an include `YOUR_ENCODED_KEY` in
 the `Authorization` header as an HTTP Basic credential.
 
-```
+```bash
 curl https://your-endpoint -H "Authorization: Basic YOUR_ENCODED_KEY"`
 ```
 
