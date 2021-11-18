@@ -25,7 +25,7 @@ defmodule ASPK.PlugAdapter do
 
   defp headers(headers) do
     Enum.reduce(headers, "", fn {key, value}, acc ->
-      acc <> key <> ": " <> value <> "\n\r"
+      acc <> key <> ": " <> value <> "\r\n"
     end)
   end
 
