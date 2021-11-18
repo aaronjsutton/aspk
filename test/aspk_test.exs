@@ -5,6 +5,10 @@ defmodule ASPKTest do
     [encoded_token: ASPK.create_token!()]
   end
 
+  test "the mix project version matches the hardcoded ASPK version" do
+    assert :eq = Version.compare(Mix.Project.config()[:version], ASPK.version)
+  end
+
   describe "the high level API" do
     test "create_token/0 generates a token" do
       assert {:ok, "Basic " <> _encoded_user_and_pass} = ASPK.create_token()
