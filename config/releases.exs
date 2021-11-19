@@ -1,5 +1,7 @@
-port =
-  System.get_env("PORT") ||
+import Config
+
+{port, _} =
+  Integer.parse(System.get_env("PORT")) ||
     raise """
     environment variable port is missing.
     For example: 9589
